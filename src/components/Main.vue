@@ -106,7 +106,7 @@
                 <span><strong>题量</strong></span>
               </template> -->
               <el-slider
-                :min="5"
+                :min="1"
                 :max="20"
                 v-model="getQuesBtn.wordsNum"
                 show-input
@@ -279,6 +279,7 @@ function getQuestion() {
     data: { limit: getQuesBtn.wordsNum },
     dataType: "JSON",
     success: function (response) {
+      console.log(response)
       if (response.code != 0) {
         getQuesBtn.leftTime = parseInt(response.message.match(/\d+(?=秒)/));
         getQuesBtn.clickCase = waitQuestion;
