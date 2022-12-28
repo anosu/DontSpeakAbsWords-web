@@ -37,4 +37,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+input::selection {
+    background:#79bbff;
+    color: white;
+}
 </style>

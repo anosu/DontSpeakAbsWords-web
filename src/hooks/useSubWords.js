@@ -2,7 +2,7 @@ export default function subWords() {
     ElMessageBox.prompt('输入需要被翻译的词条', '添加', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
-        inputPattern: /^\S{1,50}$/,
+        inputValidator: wordValidator,
         inputErrorMessage: '内容为空',
     })
         .then(({ value }) => {
@@ -30,4 +30,12 @@ export default function subWords() {
                 message: '取消',
             })
         })
+}
+
+function wordValidator(text) {
+    if (text.match(/^\s+$/) || text.length > 50) {
+        return false
+    } else {
+        return true
+    }
 }

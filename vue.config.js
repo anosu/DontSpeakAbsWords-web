@@ -40,7 +40,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '^/api': {
-        target: 'http://81.70.88.65',
+        target: 'https://abs.anosu.top',
         ws: true,
         changeOrigin: true,
       }

@@ -311,8 +311,8 @@ function getQuestion() {
         getQuesBtn.text = "成功！！";
       }
     },
-    error: function (error) {
-      ElMessage.error("发生错误，" + error);
+    error: function (error, textStatus, errorThrown) {
+      ElMessage.error("发生错误，" + textStatus, errorThrown);
       question.isShowWrapper = false;
       question.isLoading = false;
     },

@@ -2,7 +2,7 @@ export default function submitTranslation(text) {
     ElMessageBox.prompt('请输入释义（不超过100个字符）：', '提交', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
-        inputPattern: /^\S{1,100}$/,
+        inputValidator: translationValidator,
         inputErrorMessage: '内容为空或字数超过100',
     })
         .then(({ value }) => {
@@ -82,4 +82,12 @@ export default function submitTranslation(text) {
                 message: '取消',
             })
         })
+}
+
+function translationValidator(text) {
+    if (text.match(/^\s+$/) || text.length > 100) {
+        return false
+    } else {
+        return true
+    }
 }
