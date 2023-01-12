@@ -10,7 +10,7 @@ import markdownIt from "markdown-it";
 
 const md = ref("");
 $.ajax({
-  url: "https://jsd.cdn.zzko.cn/gh/IgarashiAkatuki/DontSpeakAbsWords@main/README.md",
+  url: "https://jsd.onmicrosoft.cn/gh/IgarashiAkatuki/DontSpeakAbsWords@master/README.md",
   type: "GET",
   timeout: 3000,
   success: function (response) {
