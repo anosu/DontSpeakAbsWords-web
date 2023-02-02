@@ -3,85 +3,37 @@
     <el-container class="main-wrapper-inner">
       <el-main>
         <div class="switch-wrapper">
-          <span class="el-switch"> 模糊搜索：</span
-          ><el-switch v-model="showBox.fuzzy" />
+          <span class="el-switch"> 模糊搜索：</span><el-switch v-model="showBox.fuzzy" />
         </div>
         <!-- 下面是一个文本框 -->
-        <textarea
-          name="input"
-          id="input"
-          v-model="inputKeywords"
-          rows="10"
-          maxlength="100"
-          placeholder="在这里输入要翻译的词（包括但不限于拼音缩写/中文黑话/emoji，100字符以内）"
-          autofocus
-        ></textarea>
+        <textarea name="input" id="input" v-model="inputKeywords" rows="10" maxlength="100"
+          placeholder="在这里输入要翻译的词（包括但不限于拼音缩写/中文黑话/emoji，100字符以内）" autofocus></textarea>
         <!-- 下面展示返回的数据 -->
         <div v-if="showBox.return" v-loading="showBox.loading" class="show-box">
-          <ShowBox
-            v-if="showBox.main"
-            :inputKeywords="inputKeywords"
-            :resource="resource"
-          />
+          <ShowBox v-if="showBox.main" :inputKeywords="inputKeywords" :resource="resource" />
         </div>
         <div class="btn-wrapper">
-          <el-button
-            id="add-btn"
-            type="success"
-            size="large"
-            @click="showDialog"
-            >添加词条</el-button
-          >
-          <el-dropdown
-            split-button
-            type="primary"
-            @click="getQuesBtn.canClick && getQuesBtn.clickCase()"
-            size="large"
-            :disabled="getQuesBtn.disabled"
-            trigger="click"
-            :hide-on-click="false"
-          >
+          <el-button id="add-btn" type="success" size="large" @click="showDialog">添加词条</el-button>
+          <el-dropdown split-button type="primary" @click="getQuesBtn.canClick && getQuesBtn.clickCase()" size="large"
+            :disabled="getQuesBtn.disabled" trigger="click" :hide-on-click="false">
             {{ getQuesBtn.text }}
             <template #dropdown>
               <el-card style="width: 360px">
                 <!-- <template #header>
                 <span><strong>题量</strong></span>
               </template> -->
-                <el-slider
-                  :min="1"
-                  :max="20"
-                  v-model="getQuesBtn.wordsNum"
-                  show-input
-                />
+                <el-slider :min="1" :max="20" v-model="getQuesBtn.wordsNum" show-input />
               </el-card>
             </template>
           </el-dropdown>
         </div>
-        <div
-          v-show="question.isShowWrapper"
-          v-loading="question.isLoading"
-          class="ques-wrapper"
-          style="min-height: 200px"
-        >
-          <Question
-            :words="resource.words"
-            v-if="question.isShow"
-            @closeQues="closeQuestion"
-          />
+        <div v-show="question.isShowWrapper" v-loading="question.isLoading" class="ques-wrapper"
+          style="min-height: 200px">
+          <Question :words="resource.words" v-if="question.isShow" @closeQues="closeQuestion" />
         </div>
-        <el-button
-          v-if="setu.isShowGetBtn"
-          @click="getSetu"
-          size="large"
-          type="warning"
-          style="display: block; margin: 30px auto"
-          >获取图片</el-button
-        >
-        <div
-          class="setu-wrapper"
-          v-show="setu.isShowWrapper"
-          v-loading="setu.isLoading"
-        >
+        <el-button v-if="setu.isShowGetBtn" @click="getSetu" size="large" type="warning"
+          style="display: block; margin: 30px auto">获取图片</el-button>
+        <div class="setu-wrapper" v-show="setu.isShowWrapper" v-loading="setu.isLoading">
           <Setu :url="setu.url" v-if="setu.isShow" />
         </div>
       </el-main>
@@ -141,7 +93,7 @@ watch(
       $.ajax({
         url: apiUrl.value,
         type: "POST",
-        timeout: 3000,
+        timeout: 5000,
         data: { word: newValue },
         dataType: "JSON",
         success: function (response) {
@@ -156,7 +108,7 @@ watch(
             $.ajax({
               url: "/api/isLiked",
               type: "POST",
-              timeout: 3000,
+              timeout: 5000,
               traditional: true,
               data: { translations: translations },
               dataType: "JSON",
@@ -172,15 +124,18 @@ watch(
                 resource.data = [
                   { word: inputKeywords, data: [{ translation: "请求失败" }] },
                 ];
+                showBox.main = true;
                 showBox.loading = false;
               },
             });
           }
         },
         error: function () {
+          ElMessage.error("请求超时")
           resource.data = [
             { word: inputKeywords, data: [{ translation: "请求失败" }] },
           ];
+          showBox.main = true;
           showBox.loading = false;
         },
       });
@@ -328,10 +283,12 @@ function getSetu() {
   width: 800px;
   min-width: 200px;
 }
+
 .switch-wrapper {
   text-align: left;
   padding-left: 5px;
 }
+
 #input {
   resize: none;
   position: relative;
@@ -346,27 +303,33 @@ function getSetu() {
   margin-bottom: 20px;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 #input:focus {
   box-shadow: 0 0 0 1px #409eff inset;
 }
+
 #input::-webkit-scrollbar {
   display: none;
 }
+
 .btn-wrapper {
   width: 100%;
   /* padding-top: 15px; */
 }
+
 .show-box {
   margin-bottom: 30px;
   width: 100%;
   height: auto;
   min-height: 100px;
 }
+
 .el-loading-mask {
   border-radius: 4px;
 }
+
 .show-box .el-icon,
-.el-button > span {
+.show-box .el-button>span {
   pointer-events: none;
 }
 
@@ -375,9 +338,11 @@ function getSetu() {
     width: 100%;
   }
 }
+
 .ques-wrapper {
   margin-top: 30px;
 }
+
 .setu-wrapper {
   margin-top: 30px;
   min-height: 500px;

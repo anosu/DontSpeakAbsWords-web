@@ -1,10 +1,10 @@
-export default function addLikes(text, content) {
+export default function subTranslation(word, translation) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: "/api/addLikesToPersistence",
+            url: "/api/submitTranslationsToTemp",
             type: "POST",
             timeout: 3000,
-            data: { word: text, translation: content },
+            data: { word: word, translation: translation },
             dataType: "JSON",
             success: function (response) {
                 if (response.code == 0) {
@@ -13,7 +13,8 @@ export default function addLikes(text, content) {
                     resolve(false)
                 }
             },
-            error: function () {
+            error: function (err) {
+                console.log(err)
                 resolve(false)
             }
         })

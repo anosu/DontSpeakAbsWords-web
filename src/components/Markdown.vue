@@ -10,7 +10,7 @@ import markdownIt from "markdown-it";
 
 const md = ref("");
 $.ajax({
-  url: "https://fastly.jsdelivr.net/gh/IgarashiAkatuki/DontSpeakAbsWords@main/README.md",
+  url: "https://info.midsummra.com/README.md",
   type: "GET",
   timeout: 3000,
   success: function (response) {
@@ -24,6 +24,7 @@ $.ajax({
 
 <style scope>
 @import "github-markdown-css/github-markdown.css";
+
 .md {
   max-width: 760px;
   margin: 0 auto;

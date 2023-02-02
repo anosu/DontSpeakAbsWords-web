@@ -1,7 +1,9 @@
 <template>
   <el-image style="width: 100%" :src="url" :fit="fit">
     <template #placeholder>
-      <div class="image-slot"><h3>加载中...</h3></div>
+      <div class="image-slot">
+        <h3>加载中...</h3>
+      </div>
     </template>
     <template #error>
       <div class="image-slot">
@@ -19,4 +21,5 @@ export default {
 </script>
 
 <style>
+
 </style>

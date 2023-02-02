@@ -12,7 +12,14 @@ export default function sort(array) {
                 translation: array[index].translation,
                 likes: array[index].likes,
                 liked: array[index].liked,
-                source: array[index].source
+                source: array[index].source,
+                url: array[index].url,
+                partOfSpeech: '中性',
+                fluency: '流行',
+                isDone: false,
+                isShowExtra: false,
+                isShowAnalysis: false,
+                loading: false
             })
         } else {
             if (array[index].word == single.word) {
@@ -20,7 +27,14 @@ export default function sort(array) {
                     translation: array[index].translation,
                     likes: array[index].likes,
                     liked: array[index].liked,
-                    source: array[index].source
+                    source: array[index].source,
+                    url: array[index].url,
+                    partOfSpeech: '中性',
+                    fluency: '流行',
+                    isDone: false,
+                    isShowExtra: false,
+                    isShowAnalysis: false,
+                    loading: false
                 })
             } else {
                 result.push(JSON.parse(JSON.stringify(single)))
@@ -30,7 +44,14 @@ export default function sort(array) {
                     translation: array[index].translation,
                     likes: array[index].likes,
                     liked: array[index].liked,
-                    source: array[index].source
+                    source: array[index].source,
+                    url: array[index].url,
+                    partOfSpeech: '中性',
+                    fluency: '流行',
+                    isDone: false,
+                    isShowExtra: false,
+                    isShowAnalysis: false,
+                    loading: false
                 })
             }
         }

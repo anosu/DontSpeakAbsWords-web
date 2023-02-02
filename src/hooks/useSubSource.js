@@ -1,19 +1,22 @@
-export default function subSource(content,tag) {
-    $.ajax({
-        url: "/api/addTranslationsSource",
-        type: "POST",
-        timeout: 3000,
-        data: { translation: content, source: tag},
-        dataType: "JSON",
-        success: function (response) {
-            if (response.code == 0) {
-                ElMessage.success('提交成功！')
-            } else {
-                ElMessage.error('提交失败！')
+export default function subSource(content,tag,link) {
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            url: "/api/addTranslationsSource",
+            type: "POST",
+            timeout: 3000,
+            data: { translation: content, source: tag, url: link},
+            dataType: "JSON",
+            success: function (response) {
+                if (response.code == 0) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            },
+            error: function (err) {
+                console.log(err)
+                resolve(false)
             }
-        },
-        error: function () {
-            ElMessage.error('提交失败！')
-        }
+        })
     })
 }
