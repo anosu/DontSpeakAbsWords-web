@@ -55,7 +55,7 @@ import { computed, reactive, ref, watch } from "vue";
 $(function () {
   ElNotification({
     title: "提示",
-    message: "成功提交问卷可获得一张涩图",
+    message: "成功提交问卷可获得一张美图",
     duration: 3000,
     showClose: true,
   });

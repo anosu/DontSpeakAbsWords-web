@@ -40,10 +40,10 @@ import subSource from "@/hooks/useSubSource";
 import { MoreFilled } from "@element-plus/icons-vue";
 import { ref, reactive } from "@vue/reactivity";
 
-// 从父组件接收数据
 const emit = defineEmits(["closeQues"]);
+// 从父组件接收数据
 const props = defineProps(["words"]);
-const wordsForm = ref("");
+const wordsForm = ref(null);
 let formData = reactive({
   content: []
 });
@@ -69,6 +69,7 @@ const submitForm = async (form) => {
         isQuesLoading.value = false;
         emit("closeQues");
       } else {
+        console.log(data_valid)
         submitFormWord(0, data_valid);
       }
     } else {
@@ -107,7 +108,7 @@ function submitFormWord(index, content) {
           condition[1]++;
           if (content[index].tag != "") {
             subSource(content[index].translation, content[index].tag.trim(), content[index].link)
-          }
+          } 
           submitFormWord(index + 1, content);
         } else {
           condition[0]++;
