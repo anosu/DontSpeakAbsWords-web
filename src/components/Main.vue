@@ -2,16 +2,27 @@
   <section>
     <el-container class="main-wrapper-inner">
       <el-main>
-        <div class="switch-wrapper">
-          <span class="el-switch"> 模糊搜索：</span><el-switch v-model="showBox.fuzzy" />
-        </div>
-        <!-- 下面是一个文本框 -->
-        <textarea name="input" id="input" v-model="inputKeywords" rows="10" maxlength="100"
-          placeholder="在这里输入要翻译的词（包括但不限于拼音缩写/中文黑话/emoji，100字符以内）" autofocus></textarea>
+        <el-tabs v-model="activeName" type="border-card" stretch="true">
+          <el-tab-pane label="查词翻译" name="list">
+            <div class="switch-wrapper">
+              <span class="el-switch"> 模糊搜索：</span><el-switch v-model="showBox.fuzzy" />
+            </div>
+            <!-- 下面是一个文本框 -->
+            <textarea name="input" id="input" v-model="inputKeywords" rows="10" maxlength="100"
+              placeholder="在这里输入要翻译的词（包括但不限于拼音缩写/中文黑话/emoji，100字符以内）" autofocus></textarea>
+            <div v-if="showBox.return" v-loading="showBox.loading" class="show-box">
+              <ShowBox v-if="showBox.main" :inputKeywords="inputKeywords" :resource="resource" />
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="知识图谱" name="graph">
+            <WordGraph />
+          </el-tab-pane>
+        </el-tabs>
+        <!-- <textarea name="input" id="input" v-model="inputKeywords" rows="10" maxlength="100"
+          placeholder="在这里输入要翻译的词（包括但不限于拼音缩写/中文黑话/emoji，100字符以内）" autofocus>
+            </textarea> -->
         <!-- 下面展示返回的数据 -->
-        <div v-if="showBox.return" v-loading="showBox.loading" class="show-box">
-          <ShowBox v-if="showBox.main" :inputKeywords="inputKeywords" :resource="resource" />
-        </div>
+
         <div class="btn-wrapper">
           <el-button id="add-btn" type="success" size="large" @click="showDialog">添加词条</el-button>
           <el-dropdown split-button type="primary" @click="getQuesBtn.canClick && getQuesBtn.clickCase()" size="large"
@@ -44,6 +55,7 @@
 
 <script setup>
 // 引入
+import WordGraph from "./WordGraph";
 import Setu from "@/components/Setu";
 import ShowBox from "@/components/ShowBox";
 import Question from "@/components/Question";
@@ -51,6 +63,8 @@ import WordDialog from "@/components/WordDialog";
 import useDelayRef from "@/hooks/useDelayRef";
 import sortWords from "@/hooks/useSortWords";
 import { computed, reactive, ref, watch } from "vue";
+
+const activeName = ref('list')
 
 $(function () {
   ElNotification({
@@ -191,6 +205,7 @@ function getQuestion() {
     data: { limit: getQuesBtn.wordsNum },
     dataType: "JSON",
     success: function (response) {
+      console.log(response)
       if (response.code != 0) {
         getQuesBtn.leftTime = parseInt(response.message.match(/\d+(?=秒)/));
         getQuesBtn.clickCase = waitQuestion;
@@ -222,8 +237,8 @@ function getQuestion() {
         getQuesBtn.text = "成功！！";
       }
     },
-    error: function (error, textStatus, errorThrown) {
-      ElMessage.error("发生错误，" + textStatus, errorThrown);
+    error: function (error) {
+      ElMessage.error("发生错误，" + error.statusText);
       question.isShowWrapper = false;
       question.isLoading = false;
     },
@@ -314,11 +329,11 @@ function getSetu() {
 
 .btn-wrapper {
   width: 100%;
-  /* padding-top: 15px; */
+  padding-top: 25px;
 }
 
 .show-box {
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   width: 100%;
   height: auto;
   min-height: 100px;
